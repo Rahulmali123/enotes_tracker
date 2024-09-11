@@ -1,8 +1,9 @@
 package com.becoder.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.becoder.entity.Notes;
@@ -29,11 +30,14 @@ public class NotesServiceimpl implements NotesService
 	}
 
 	@Override
-	public List<Notes> getNotesByUser(User user) 
+	public Page<Notes> getNotesByUser(User user, int pageNo) 
 	{
-		return notesRepository.findByUser(user);
+		Pageable pageable = PageRequest.of(pageNo, 5);
+		
+		return notesRepository.findByUser(user, pageable);
 	}
-
+	
+	
 	@Override
 	public Notes updateNotes(Notes notes) 
 	{
@@ -52,5 +56,7 @@ public class NotesServiceimpl implements NotesService
 		} 
 		return false;
 	}
+
+	
 
 }
